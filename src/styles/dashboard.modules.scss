@@ -1,0 +1,16 @@
+.dashboard {
+    position: relative;
+    grid-area: dash;
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+
+    &--hidden {
+        pointer-events: none;
+        background-size: 10%;
+        background-image: url("/public/images/no-draw.png");
+        background-repeat: no-repeat;
+        background-position: center;
+        // https://www.svgrepo.com/show/2179/eye.svg
+    }
+}

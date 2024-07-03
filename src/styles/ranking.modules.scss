@@ -1,0 +1,48 @@
+@import "./variables.scss";
+
+.ranking {
+    grid-area: rank;
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    background-color: white;
+    border-radius: 5px;
+    padding: 0;
+    overflow-y: scroll;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    
+    &__list {
+        width: 100%;
+        padding: 20px 10px;
+    }
+
+    &__item {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 10px; 
+        padding: 10px 0;
+        border-bottom: 3px solid $primary-border;
+
+        &:first-child {
+            padding-top: 0;
+        }
+    }
+
+    &__avatar {
+        width: 60px;
+        height: 60px;
+    }
+
+    &__icon {
+        width: 30px;
+        fill: $primary-icon;
+    }
+
+    &__name-user {
+        display: block;
+    }
+
+}
