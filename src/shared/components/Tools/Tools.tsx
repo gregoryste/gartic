@@ -7,11 +7,15 @@ import { SocketContext } from '../../hooks/context/socket';
 import { useNavigate } from 'react-router-dom';
 
 const Tools: React.FC<ITools> = ({ settings, editor }) => {
-    const { color, setColor, lineWidth, setLineWidth, setClearBoard } = settings;
+    const { color, setColor, lineWidth, setLineWidth, setClearBoard, eraser, setEraser } = settings;
     const socket = useContext(SocketContext);
     const navigate = useNavigate();
     const [open, setOpen] = useState(false);
     const [pickerOpen, setPickerOpen] = useState(false);
+
+    const classEditor = !editor ? "tools__button tools__button--disabled" : "tools__button";
+    const classEraser = eraser ? "tools__button--active" : "";
+    const classButtonEraser = !editor ? `tools__button tools__button--disabled ${classEraser}` : `tools__button ${classEraser}`;
 
     const logout = () => {
         socket.disconnect();
@@ -23,12 +27,12 @@ const Tools: React.FC<ITools> = ({ settings, editor }) => {
             <div className="tools" data-open={open}>
                 <div className="tools__container">
                     <div className="tools__icons-board">
-                        <button type="button" className={!editor ? "tools__button tools__button--disabled" : "tools__button" } disabled={!editor ? true : false } onClick={() => setClearBoard?.(true)}>
+                        <button type="button" className={classEditor} disabled={!editor ? true : false } onClick={() => setClearBoard?.(true)}>
                             Clean
                             <i className="fa-solid fa-broom tools__icon"></i>
                         </button>
 
-                        <button type="button" className={!editor ? "tools__button tools__button--disabled" : "tools__button" } disabled={!editor ? true : false } onClick={() => setPickerOpen(!pickerOpen)}>
+                        <button type="button" className={classEditor} disabled={!editor ? true : false } onClick={() => setPickerOpen(!pickerOpen)}>
                             Pick Color
                             <i className="fa-solid fa-palette tools__icon"></i>
                             { pickerOpen ? <div className='tools__color-palette'>
@@ -38,6 +42,11 @@ const Tools: React.FC<ITools> = ({ settings, editor }) => {
                         </button>
 
                         <InputRange lineWidth={lineWidth} setLineWidth={setLineWidth} editor={editor} />
+
+                        <button type="button" className={classButtonEraser} disabled={!editor ? true : false } onClick={() => setEraser?.(!eraser)}>
+                            Eraser
+                            <i className="fa-solid fa-eraser tools__icon"></i>
+                        </button>
 
                         <button className='tools__button tools__button--close' onClick={() => setOpen(false)}>
                             <i className="fa-solid fa-circle-xmark "></i>

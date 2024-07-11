@@ -11,4 +11,6 @@ export type ISettings = {
     clearBoard?: boolean;
     setClearBoard?: (e) => void;
     editor?: boolean;
+    eraser?: boolean;
+    setEraser?: (e) => void | undefined;
 }

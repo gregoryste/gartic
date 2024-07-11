@@ -9,6 +9,7 @@ export const Panel = () => {
     const [user, setUser] = useState([]);
     const [lineWidth, setLineWidth] = useState(5);
     const [clearBoard, setClearBoard] = useState(false);
+    const [eraser, setEraser] = useState(false);
 
     useEffect(() => {
         socket.on("gameStarts", message => {
@@ -27,7 +28,9 @@ export const Panel = () => {
         lineWidth,
         setLineWidth,
         clearBoard,
-        setClearBoard
+        setClearBoard,
+        eraser,
+        setEraser
     }
 
     return (
@@ -35,7 +38,7 @@ export const Panel = () => {
             <Tools settings={settings} editor={user.editor}/> 
             <div className="panel">
                 <Ranking />
-                <Board color={settings.color} size={settings.lineWidth} clear={settings.clearBoard} setClear={settings.setClearBoard} editor={user.editor}></Board>
+                <Board color={settings.color} size={settings.lineWidth} clear={settings.clearBoard} setClear={settings.setClearBoard} eraser={settings.eraser} editor={user.editor}></Board>
                 <Chat />
             </div>
         </Default>

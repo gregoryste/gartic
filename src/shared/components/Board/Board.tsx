@@ -8,11 +8,12 @@ interface MyBoard {
     clear: boolean;
     setClear: any;
     editor: boolean;
+    eraser: boolean;
 }
 
 const Board: React.FC<MyBoard> = (props) => {
     const socket = useContext(SocketContext);
-    const { color, size, clear, setClear, editor } = props;
+    const { color, size, clear, setClear, editor, eraser } = props;
     const canvasRef = useRef<HTMLCanvasElement>(null);
 
     const clearBoard = () => {
@@ -58,6 +59,9 @@ const Board: React.FC<MyBoard> = (props) => {
             if (!isDrawing) return;
             const canvas = canvasRef.current;
             const ctx = canvas.getContext('2d');
+
+            ctx.globalCompositeOperation = eraser ? "destination-out" : "source-over";
+
             if (ctx) {
                 ctx.beginPath();
                 ctx.moveTo(lastX, lastY);
@@ -70,8 +74,6 @@ const Board: React.FC<MyBoard> = (props) => {
         const endDrawing = () => {
             const canvas = canvasRef.current;
             const dataURL = canvas.toDataURL();
-            console.log(dataURL)
-
 
             if (socket) {
                 socket.emit('canvasImage', {image: dataURL, clear: false});
@@ -113,7 +115,7 @@ const Board: React.FC<MyBoard> = (props) => {
             canvas.removeEventListener('mouseup', endDrawing);
             canvas.removeEventListener('mouseout', endDrawing);
         };
-    }, [color, size, socket, clear]);
+    }, [color, size, socket, eraser, clear]);
 
 
     return (

@@ -47,8 +47,18 @@
         font-size: 16px;
         background-color: $secondary-color;
         color: white;
-        border: none;
+        border: 1px solid transparent;
         border-radius: 4px;
+
+        &--active {
+            background-color: transparent;
+            color: $secondary-color;
+            border-color: $secondary-color;
+
+            .tools__icon {
+                color: $secondary-color;
+            }
+        }
 
         &--close {
             font-size: 20px;
