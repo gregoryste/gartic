@@ -78,6 +78,19 @@
         color: white;
         margin-left: 10px;
     }
+
+    &__color-palette {
+        position: absolute;
+        z-index: 2;
+    }
+
+    &__color-palette-cover {
+        position: fixed;
+        top: 0;
+        right: 0;
+        left: 0;
+        bottom: 0;
+    }
 }
 
 input[type="range"] {

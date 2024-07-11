@@ -3,7 +3,6 @@ import { Default } from "../../shared/layouts";
 import { Ranking, Chat, Tools, Board } from "../../shared/components";
 import { SocketContext } from '../../shared/hooks/context/socket';
 
- 
 export const Panel = () => {
     const socket = useContext(SocketContext);
     const [color, setColor] = useState("#37d67a");

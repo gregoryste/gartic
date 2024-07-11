@@ -2,7 +2,7 @@ import { v4 as uuidv4 } from 'uuid';
 import React, {useContext, useEffect, useMemo, useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import "../../styles/welcome.modules.scss";
-import { Default, Home } from "../../shared/layouts";
+import { Home } from "../../shared/layouts";
 import { iconRoom } from '../../shared/components';
 import { SocketContext } from '../../shared/hooks/context/socket';
 

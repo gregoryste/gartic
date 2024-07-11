@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { SketchPicker } from "react-color";
 import "../../../styles/tools.modules.scss";
 import { ITools } from "../Types/Tools"
@@ -7,6 +7,7 @@ import { SocketContext } from '../../hooks/context/socket';
 import { useNavigate } from 'react-router-dom';
 
 const Tools: React.FC<ITools> = ({ settings, editor }) => {
+    const { color, setColor, lineWidth, setLineWidth, setClearBoard } = settings;
     const socket = useContext(SocketContext);
     const navigate = useNavigate();
     const [open, setOpen] = useState(false);
@@ -17,25 +18,12 @@ const Tools: React.FC<ITools> = ({ settings, editor }) => {
         navigate("/");
     }
 
-    const popover = {
-        position: 'absolute',
-        zIndex: '2',
-    };
-
-    const cover = {
-        position: 'fixed',
-        top: '0px',
-        right: '0px',
-        bottom: '0px',
-        left: '0px',
-    };
-
     return (
         <>
             <div className="tools" data-open={open}>
                 <div className="tools__container">
                     <div className="tools__icons-board">
-                        <button type="button" className={!editor ? "tools__button tools__button--disabled" : "tools__button" } disabled={!editor ? true : false } onClick={() => settings.setClearBoard(true)}>
+                        <button type="button" className={!editor ? "tools__button tools__button--disabled" : "tools__button" } disabled={!editor ? true : false } onClick={() => setClearBoard?.(true)}>
                             Clean
                             <i className="fa-solid fa-broom tools__icon"></i>
                         </button>
@@ -43,13 +31,13 @@ const Tools: React.FC<ITools> = ({ settings, editor }) => {
                         <button type="button" className={!editor ? "tools__button tools__button--disabled" : "tools__button" } disabled={!editor ? true : false } onClick={() => setPickerOpen(!pickerOpen)}>
                             Pick Color
                             <i className="fa-solid fa-palette tools__icon"></i>
-                            { pickerOpen ? <div style={ popover }>
-                                <div style={ cover } onClick={() => setPickerOpen(false) }/>
-                                <SketchPicker color={settings.color} onChange={e => settings.setColor(e.hex)} />
+                            { pickerOpen ? <div className='tools__color-palette'>
+                                <div className='tools__color-palette-cover' onClick={() => setPickerOpen(false) }/>
+                                <SketchPicker color={color} onChange={e => setColor?.(e.hex)} />
                             </div> : null }
                         </button>
 
-                        <InputRange lineWidth={settings.lineWidth} setLineWidth={settings.setLineWidth} editor={editor} />
+                        <InputRange lineWidth={lineWidth} setLineWidth={setLineWidth} editor={editor} />
 
                         <button className='tools__button tools__button--close' onClick={() => setOpen(false)}>
                             <i className="fa-solid fa-circle-xmark "></i>

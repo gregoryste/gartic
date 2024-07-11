@@ -1,5 +1,5 @@
 export type ITools = {
-    settings: ISettings[] | any;
+    settings: ISettings;
     editor: boolean;
 }
 
