@@ -29,6 +29,8 @@ const Board: React.FC<MyBoard> = (props) => {
     useEffect(() => {
         if (socket) {
             socket.on('renderImage', (data) => {
+                if(data.id === socket.id) return;
+
                 if(data.clear){
                     clearBoard();
                     return;
@@ -60,14 +62,17 @@ const Board: React.FC<MyBoard> = (props) => {
             const canvas = canvasRef.current;
             const ctx = canvas.getContext('2d');
 
-            ctx.globalCompositeOperation = eraser ? "destination-out" : "source-over";
-
             if (ctx) {
                 ctx.beginPath();
                 ctx.moveTo(lastX, lastY);
                 ctx.lineTo(e.offsetX, e.offsetY);
                 ctx.stroke();
             }
+
+            if(eraser){
+                ctx.strokeStyle = "white";
+            }
+
             [lastX, lastY] = [e.offsetX, e.offsetY];
         };
 
@@ -76,7 +81,7 @@ const Board: React.FC<MyBoard> = (props) => {
             const dataURL = canvas.toDataURL();
 
             if (socket) {
-                socket.emit('canvasImage', {image: dataURL, clear: false});
+                socket.emit('canvasImage', {image: dataURL, clear: false, id: socket.id});
             }
             isDrawing = false;
         };
@@ -97,7 +102,7 @@ const Board: React.FC<MyBoard> = (props) => {
             const dataURL = canvas.toDataURL();
 
             if (socket) {
-                socket.emit('canvasImage', {image: dataURL, clear: true});
+                socket.emit('canvasImage', {image: dataURL, clear: true, id: socket.id});
             }
             isDrawing = false;
             
@@ -119,12 +124,17 @@ const Board: React.FC<MyBoard> = (props) => {
 
 
     return (
-        <canvas
-            ref={canvasRef}
-            width="775"
-            height="400"
-            className={!editor ? "dashboard dashboard--hidden" : "dashboard" }
-        />
+        <>
+            <canvas
+                ref={canvasRef}
+                width="775"
+                height="400"
+                className="dashboard"
+            />
+            {!editor ? (
+                <div className="dashboard--hidden"></div>
+            ) : ""}
+        </>
 
     );
 };

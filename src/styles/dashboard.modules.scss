@@ -4,13 +4,17 @@
     background-color: white;
     border-radius: 5px;
     box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    z-index: 1;
 
     &--hidden {
+        height: 400px;
+        grid-area: dash;
         pointer-events: none;
         background-size: 10%;
         background-image: url("/public/images/no-draw.png");
         background-repeat: no-repeat;
         background-position: center;
+        z-index: 2;
         // https://www.svgrepo.com/show/2179/eye.svg
     }
 }

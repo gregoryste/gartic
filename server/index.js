@@ -48,7 +48,7 @@ io.on("connection", async (socket) => {
     socket.on("canvasImage", (data) => {
       let user = getCurrentUser(socket.id);
       if(user){
-        io.to(user.room).emit('renderImage', data);
+        socket.broadcast.emit('renderImage', data);
       }
     });
 
