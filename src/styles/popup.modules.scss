@@ -1,0 +1,63 @@
+@import "./variables";
+
+.popup {
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 3;
+
+    &--hide {
+        display: none;
+    }
+
+    &__container {
+        position: relative;
+        padding: 20px;
+        min-width: 300px;
+        background-color: #0b2990;
+        border-radius: 8px;
+        box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px;
+    }
+
+    &__text {
+        position: relative;
+        margin: 0 auto;
+        width: 100%;
+        text-align: center;
+        display: block;
+        font-family: "Lato";
+        font-size: 24px;
+        color: white;
+        margin-bottom: 8px;
+
+        &--letter {
+            font-size: 30px;
+
+            &::before {
+                content: "";
+                position: absolute;
+                bottom: -4px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: calc(100% - 10px);
+                height: 2px;
+                background-color: white;
+            }
+        }
+    }
+
+    &__content-word {
+        display: flex;
+        min-height: 40px;
+    }
+
+    &__close {
+        cursor: pointer;
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        color: white;
+        font-size: 20px;
+    }
+}

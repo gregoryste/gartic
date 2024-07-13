@@ -129,10 +129,10 @@ const Board: React.FC<MyBoard> = (props) => {
                 ref={canvasRef}
                 width="775"
                 height="400"
-                className="dashboard"
+                className={!editor ? "dashboard dashboard--hidden" : "dashboard" }
             />
             {!editor ? (
-                <div className="dashboard--hidden"></div>
+                <div className="dashboard__image-hidden"></div>
             ) : ""}
         </>
 

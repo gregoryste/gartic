@@ -77,6 +77,15 @@
             top: 5px;
         }
 
+        &--popup {
+            z-index: 1;
+            font-size: 20px;
+            padding: 4px 10px;
+            position: absolute;
+            left: 5px;
+            top: 5px;
+        }
+
         &--disabled {
             cursor: default;
             opacity: .1;

@@ -1,8 +1,7 @@
-const moment = require('moment');
-const users = [];
-const rooms = [];
+export const users = [];
+import { rooms, deleteEmptyRooms } from "./rooms.js"
 
-function userJoin(id, username, room) {
+export function userJoin(id, username, room) {
   let editor = users.length >= 1 ? false : true;
   const user = {id, username, room, editor: editor};
 
@@ -11,19 +10,15 @@ function userJoin(id, username, room) {
   return user;
 }
 
-function roomJoin(id, room, type) {
-  const data = { id, room, type};
-
-  rooms.push(data);
-
-  return room;
-}
-
-function getCurrentUser(id) {
+export function getCurrentUser(id) {
   return users.find(user => user.id === id);
 }
 
-function userLeave(id) {
+export function getCurrentUserEditor(idRoom){
+  return users.find(user => user.room === idRoom && user.editor === true);
+}
+
+export function userLeave(id) {
   const index = users.findIndex(user => user.id === id);
   let currentUser = users.find(user => user.id === id);
 
@@ -38,53 +33,6 @@ function userLeave(id) {
   return currentUser;
 }
 
-function getRoomUsers(room) {
+export function getRoomUsers(room) {
   return users.filter(user => user.room === room);
 }
-
-function getCurrentRooms() {
-  let currentRooms = [];
-
-  rooms.forEach(room => {
-    let quantity = users.filter(user => user.room === room.room).length;
-
-    let data = {
-      id: room.id,
-      room: room.room,
-      type: room.type,
-      quantity: quantity
-    }
-
-    currentRooms.push(data);
-  });
-
-  return currentRooms;
-}
-
-function deleteEmptyRooms(id){
-  let data = users.find(user => user.room === id);
-
-  if(!data){
-    let index = rooms.findIndex(item => item.room === id);
-
-    if (index !== -1) {
-      rooms.splice(index, 1)[0];
-    }
-  }
-}
-
-function setEditorUser(room, index){
-  let userRooms = getRoomUsers(room);
-
-  userRooms[index].editor = true
-}
-
-module.exports = {
-  userJoin,
-  roomJoin,
-  getCurrentUser,
-  userLeave,
-  getRoomUsers,
-  getCurrentRooms,
-  setEditorUser
-};

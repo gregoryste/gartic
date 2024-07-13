@@ -1,3 +1,4 @@
+export * from "./Popup/Popup";
 export * from "./Ranking/Ranking";
 export * from "./Board/Board";
 export * from "./Chat/Chat";

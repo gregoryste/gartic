@@ -1,9 +1,11 @@
-const express = require("express");
+import express from "express";
 const app = express();
-const http = require("http");
-const { Server } = require("socket.io");
-const cors = require("cors");
-const { userJoin, getCurrentUser, getRoomUsers, roomJoin, getCurrentRooms, userLeave, setEditorUser } = require("./utils/users");
+import http from "http";
+import { Server } from "socket.io";
+import cors from "cors";
+import { userJoin, getCurrentUser, getRoomUsers, userLeave, getCurrentUserEditor } from "./utils/users.js";
+import { roomJoin, getCurrentRooms, setWordRoom } from "./utils/rooms.js";
+
 
 app.use(cors());
 
@@ -38,7 +40,10 @@ io.on("connection", async (socket) => {
       if(usersActives.length > 1 && !gameStarted){
         gameStarted = true;
         io.to(idRoom).emit("gameStarts", `Your match will start`);
-        // setEditorUser(idRoom, 0);
+        let wordSelected = setWordRoom(idRoom);
+        let mainEditorRoom = getCurrentUserEditor(idRoom);
+
+        io.to(mainEditorRoom.room).emit("word-selected", wordSelected)
       }
 
       io.emit('roomTypes', getCurrentRooms());

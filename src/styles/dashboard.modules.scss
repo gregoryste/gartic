@@ -7,6 +7,10 @@
     z-index: 1;
 
     &--hidden {
+        pointer-events: none;
+    }
+
+    &__image-hidden {
         height: 400px;
         grid-area: dash;
         pointer-events: none;

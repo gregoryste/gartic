@@ -13,4 +13,6 @@ export type ISettings = {
     editor?: boolean;
     eraser?: boolean;
     setEraser?: (e) => void | undefined;
+    popup?: boolean;
+    setPopup?: (e) => void;
 }

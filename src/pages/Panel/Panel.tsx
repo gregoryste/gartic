@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Default } from "../../shared/layouts";
-import { Ranking, Chat, Tools, Board } from "../../shared/components";
+import { Ranking, Chat, Tools, Board, Popup } from "../../shared/components";
 import { SocketContext } from '../../shared/hooks/context/socket';
 
 export const Panel = () => {
@@ -10,6 +10,8 @@ export const Panel = () => {
     const [lineWidth, setLineWidth] = useState(5);
     const [clearBoard, setClearBoard] = useState(false);
     const [eraser, setEraser] = useState(false);
+    const [popup, setPopup] = useState(false);
+    const [word, setWord] = useState("");
 
     useEffect(() => {
         socket.on("gameStarts", message => {
@@ -18,6 +20,11 @@ export const Panel = () => {
 
         socket.on("user", data => {
             setUser(data);
+        })
+
+        socket.on("word-selected", word => {
+            setPopup(true);
+            setWord(word);
         })
 
     }, [socket])
@@ -30,11 +37,14 @@ export const Panel = () => {
         clearBoard,
         setClearBoard,
         eraser,
-        setEraser
+        setEraser,
+        popup,
+        setPopup
     }
 
     return (
         <Default>
+            <Popup popup={popup} setPopup={setPopup} editor={user.editor} word={word}/>
             <Tools settings={settings} editor={user.editor}/> 
             <div className="panel">
                 <Ranking />
