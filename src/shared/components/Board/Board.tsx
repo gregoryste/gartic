@@ -15,6 +15,9 @@ const Board: React.FC<MyBoard> = (props) => {
     const socket = useContext(SocketContext);
     const { color, size, clear, setClear, editor, eraser } = props;
     const canvasRef = useRef<HTMLCanvasElement>(null);
+    const dashboardRef = useRef(null);
+    const [width, setWidth] = useState(0);
+    const [height, setHeigth] = useState(0);
 
     const clearBoard = () => {
         const canvas = canvasRef.current;
@@ -122,18 +125,32 @@ const Board: React.FC<MyBoard> = (props) => {
         };
     }, [color, size, socket, eraser, clear]);
 
+    useEffect(() => {
+        const updateDimensions = () => {
+            if (dashboardRef.current) {
+                setWidth(dashboardRef.current.offsetWidth)
+                setHeigth(dashboardRef.current.offsetHeight - 50)
+            }
+        };
+
+        updateDimensions();
+
+        window.addEventListener('resize', updateDimensions);
+    }, []);
 
     return (
         <>
-            <canvas
-                ref={canvasRef}
-                width="775"
-                height="400"
-                className={!editor ? "dashboard dashboard--hidden" : "dashboard" }
-            />
-            {!editor ? (
-                <div className="dashboard__image-hidden"></div>
-            ) : ""}
+                <canvas
+                    ref={canvasRef}
+                    width={width}
+                    height={height}
+                    className={!editor ? "dashboard dashboard--hidden" : "dashboard" }
+                />
+
+                {!editor ? (
+                    <div className="dashboard__image-hidden"></div>
+                ) : ""}
+                <div ref={dashboardRef} className="dashboard dashboard--dimensions"></div>
         </>
 
     );

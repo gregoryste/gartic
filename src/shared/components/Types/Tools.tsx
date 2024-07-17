@@ -15,4 +15,5 @@ export type ISettings = {
     setEraser?: (e) => void | undefined;
     popup?: boolean;
     setPopup?: (e) => void;
+    word?: string
 }

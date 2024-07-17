@@ -11,14 +11,19 @@
     }
 
     &__image-hidden {
-        height: 400px;
+        height: calc(100% - 50px);
         grid-area: dash;
         pointer-events: none;
-        background-size: 10%;
+        background-size: 20%;
         background-image: url("/public/images/no-draw.png");
         background-repeat: no-repeat;
         background-position: center;
         z-index: 2;
-        // https://www.svgrepo.com/show/2179/eye.svg
+    }
+
+    &--dimensions {
+        opacity: 1;
+        pointer-events: none;
+        background-color: transparent;
     }
 }

@@ -7,7 +7,7 @@ import { SocketContext } from '../../hooks/context/socket';
 import { useNavigate } from 'react-router-dom';
 
 const Tools: React.FC<ITools> = ({ settings, editor }) => {
-    const { color, setColor, lineWidth, setLineWidth, setClearBoard, eraser, setEraser, popup, setPopup } = settings;
+    const { color, setColor, lineWidth, setLineWidth, setClearBoard, eraser, setEraser, popup, setPopup, word } = settings;
     const socket = useContext(SocketContext);
     const navigate = useNavigate();
     const [open, setOpen] = useState(false);
@@ -65,7 +65,7 @@ const Tools: React.FC<ITools> = ({ settings, editor }) => {
                 <i className="fa-solid fa-sliders"></i>
             </button>
 
-            {!popup ? (
+            {!popup && word ? (
                 <button className='tools__button tools__button--popup' onClick={() => setPopup(true)}>
                     <i className="fa-solid fa-info"></i>
                 </button>

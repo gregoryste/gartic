@@ -39,7 +39,8 @@ export const Panel = () => {
         eraser,
         setEraser,
         popup,
-        setPopup
+        setPopup,
+        word
     }
 
     return (
