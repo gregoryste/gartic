@@ -1,5 +1,5 @@
 export const rooms = [];
-import words from "./words.js";
+import { subjectWords } from "./words.js";
 import { users } from "./users.js";
 
 export function roomJoin(id, room, type) {
@@ -10,8 +10,17 @@ export function roomJoin(id, room, type) {
   return room;
 }
 
-export function getCurrentRooms() {
+export function verifyWordSelected(data){
+  let currentRoom = getCurrentRooms(data.idRoom);
+  return data.message == currentRoom[0].currentWord ? "right" : "wrong";
+}
+
+export function getCurrentRooms(id = null) {
   let currentRooms = [];
+
+  if(id){
+    return rooms.filter(room => room.id === id)[0];
+  }
 
   rooms.forEach(room => {
     let quantity = users.filter(user => user.room === room.room).length;
@@ -20,6 +29,7 @@ export function getCurrentRooms() {
       id: room.id,
       room: room.room,
       type: room.type,
+      currentWord: room.currentWord,
       quantity: quantity
     }
 
@@ -54,12 +64,10 @@ export function setWordRoom(id){
 }
 
 const generateWord = (type) => {
-  let typeRoom = words[type.toLowerCase()];
+  let nameTypeRoom = type.toLowerCase();
+  let typeRoom = subjectWords[nameTypeRoom];
   let size = typeRoom.length - 1;
-
   let numberRandom = Math.floor(Math.random() * (size - 0));
-
-  console.log("Word selected:", typeRoom[numberRandom]);
-
+  
   return typeRoom[numberRandom];
 }

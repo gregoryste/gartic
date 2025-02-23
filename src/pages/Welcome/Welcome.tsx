@@ -1,10 +1,11 @@
 import { v4 as uuidv4 } from 'uuid';
-import React, {useContext, useEffect, useMemo, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import "../../styles/welcome.modules.scss";
 import { Home } from "../../shared/layouts";
 import { iconRoom } from '../../shared/components';
 import { SocketContext } from '../../shared/hooks/context/socket';
+import { subjects } from "../../../server/utils/words"
 
 export const Welcome = () => {    
     const socket = useContext(SocketContext);
@@ -13,8 +14,8 @@ export const Welcome = () => {
     const [nick, setNick] = useState("");    
     const [rooms, setRooms] = useState([]);
     const [search, setSearch] = useState("");
-    const [typeRoom, setTypeRoom] = useState("Objects");
-    const typesRooms = ["Objects", "Foods", "General"];
+    const [typeRoom, setTypeRoom] = useState("animals");
+    const typesRooms = subjects;
 
     useEffect(() => {
         if(!socket.connected){
@@ -89,7 +90,7 @@ export const Welcome = () => {
                         <select onChange={(event) => changeTypeRoom(event.target.value)} value={typeRoom}
                         className='welcome__input'>
                             {typesRooms.map((type, i) => (
-                                <option value={type.toLowerCase()} key={i}>{type}</option>
+                                <option value={type.toLowerCase()} key={i}>{type.charAt(0).toUpperCase() + type.slice(1).toLowerCase()}</option>
                             ))}       
                         </select>
                     </div>

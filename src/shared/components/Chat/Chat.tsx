@@ -1,9 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react';
 import "../../../styles/chat.modules.scss";
 import { SocketContext } from "../../hooks/context/socket";
+import { useParams } from 'react-router-dom';
 
 export const Chat = () => {    
     const socket = useContext(SocketContext);
+    const { idRoom } = useParams();
     const [message, setMessage] = useState("");
     const [messageAnswers, setMessageAnswers] = useState("");
     const [messageReceived, setMessageReceived] = useState([]);
@@ -28,7 +30,7 @@ export const Chat = () => {
 
     const sendMessageAnswers = () => {
         if(messageAnswers && messageAnswers != ""){
-            socket.emit("messageAnswers", messageAnswers);
+            socket.emit("messageAnswers", {message: messageAnswers.toLowerCase(), idRoom: idRoom});
             setMessageAnswers("");
         } 
     }

@@ -4,7 +4,7 @@ import http from "http";
 import { Server } from "socket.io";
 import cors from "cors";
 import { userJoin, getCurrentUser, getRoomUsers, userLeave, getCurrentUserEditor } from "./utils/users.js";
-import { roomJoin, getCurrentRooms, setWordRoom } from "./utils/rooms.js";
+import { roomJoin, getCurrentRooms, setWordRoom, verifyWordSelected } from "./utils/rooms.js";
 
 
 app.use(cors());
@@ -43,7 +43,7 @@ io.on("connection", async (socket) => {
         let wordSelected = setWordRoom(idRoom);
         let mainEditorRoom = getCurrentUserEditor(idRoom);
 
-        io.to(mainEditorRoom.room).emit("word-selected", wordSelected)
+        io.to(mainEditorRoom.room).emit("word-selected", { word: wordSelected, isPlayer: false });
       }
 
       io.emit('roomTypes', getCurrentRooms());
@@ -65,11 +65,17 @@ io.on("connection", async (socket) => {
       }
     })
 
-    socket.on("messageAnswers", message => {
+    socket.on("messageAnswers", data => {
       let user = getCurrentUser(socket.id);
+      let typeAnswer = verifyWordSelected(data);
+
       if(user){
-        io.to(user.id).emit("answers", {message: `Me: ${message}`, type: "wrong"});
-        socket.broadcast.emit("answers", {message: `${user.username}: ${message}`, type: "wrong"});
+        io.to(user.id).emit("answers", {message: `Me: ${data.message}`, type: typeAnswer});
+        socket.broadcast.emit("answers", {message: `${user.username}: ${data.message}`, type: typeAnswer});
+      }
+
+      if(user && typeAnswer == "right"){
+        io.to(user.id).emit("word-selected", { word: data.message, isPlayer: true });
       }
     })
 

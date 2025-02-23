@@ -2,12 +2,11 @@ import React from 'react'
 import "../../../styles/popup.modules.scss";
 
 export const Popup = (props) => {
-    const { popup, setPopup, editor, word } = props;
+    const { popup, setPopup, editor, word, isPlayer } = props;
     const message = !editor ? "Guess What" : "Draw this word";
 
     const closePopup = () => {
         setPopup(false);
-        console.log(popup)
     }
 
     return (
@@ -16,7 +15,7 @@ export const Popup = (props) => {
                 <span className="popup__text">{ message }</span>
                 <div className="popup__content-word">
                     {word.split("").map((letter, i) => (
-                        <span key={i} className="popup__text popup__text--letter">{ editor ? letter : "" }</span>
+                        <span key={i} className="popup__text popup__text--letter">{ editor || isPlayer == true ? letter : "" }</span>
                     ))}
                 </div>
                 <div onClick={closePopup}>

@@ -12,19 +12,24 @@ export const Panel = () => {
     const [eraser, setEraser] = useState(false);
     const [popup, setPopup] = useState(false);
     const [word, setWord] = useState("");
+    const [isPlayer, setIsPlayer] = useState(false);
 
     useEffect(() => {
         socket.on("gameStarts", message => {
-            alert(message);
+            // alert(message);
         })
 
         socket.on("user", data => {
             setUser(data);
         })
 
-        socket.on("word-selected", word => {
+        socket.on("word-selected", data => {
             setPopup(true);
-            setWord(word);
+            console.log(data)
+            setWord(data.word);
+            if(data.isPlayer == true){
+                setIsPlayer(true);
+            }
         })
 
     }, [socket])
@@ -45,7 +50,7 @@ export const Panel = () => {
 
     return (
         <Default>
-            <Popup popup={popup} setPopup={setPopup} editor={user.editor} word={word}/>
+            <Popup popup={popup} setPopup={setPopup} editor={user.editor} word={word} isPlayer={isPlayer}/>
             <Tools settings={settings} editor={user.editor}/> 
             <div className="panel">
                 <Ranking />
